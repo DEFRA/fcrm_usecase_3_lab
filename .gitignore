@@ -1,0 +1,11 @@
+# Python-generated files
+__pycache__/
+
+# Virtual environments
+.venv
+
+# Credentials
+.env
+
+# Other
+.idea

@@ -1,0 +1,23 @@
+command:
+  - streamlit
+  - run
+  - app.py
+
+env:
+  - name: APP_PASSWORD
+    valueFrom: app-password
+
+  - name: DATABRICKS_HOST
+    valueFrom: databricks-host
+
+  - name: DATABRICKS_TOKEN
+    valueFrom: databricks-token
+
+  - name: AI_BASE_URL
+    valueFrom: ai-base-url
+
+  - name: LLM_TOKEN
+    valueFrom: llm-token
+
+  - name: STREAMLIT_GATHER_USAGE_STATS
+    value: "false"
