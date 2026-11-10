@@ -8,6 +8,10 @@ load_dotenv()
 
 FORMS_PATH = "/Volumes/prd_dash_lab/ea_fcrm_ai_labs/ai_labs/UC3/Forms"
 
+# Height (px) of the side-by-side document / review panes. Each pane scrolls
+# independently once its content exceeds this height.
+PANE_HEIGHT = 700
+
 # Page config
 st.set_page_config(
     layout="wide",
@@ -25,8 +29,8 @@ st.markdown(
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #151c24;
-            color: #8c8c8c;
+            background-color: #e0e0e0;
+            color: #808080;
             text-align: center;
             padding: 10px 0;
             font-size: 13px;
@@ -142,21 +146,34 @@ if index is not None and 0 <= index < len(files):
     st.caption(f"{rel_path}  ·  file {index + 1} of {len(files)}")
     nav_bar("top", index, len(files))
 
-    try:
-        html = docx_to_html(os.path.join(local_root, rel_path))
-        # Minimal styling so tables render sensibly; st.html renders the HTML
-        # properly (unlike st.markdown, which mangles block-level HTML).
-        st.html(
-            """
-            <style>
-                .docx-view table { border-collapse: collapse; margin: 0.5rem 0; }
-                .docx-view td, .docx-view th { border: 1px solid #888; padding: 4px 8px; }
-                .docx-view img { max-width: 100%; }
-            </style>
-            <div class="docx-view">""" + html + "</div>"
-        )
-    except Exception as e:
-        st.error(f"Could not display this document: {e}")
+    doc_col, review_col = st.columns(2, gap="medium")
+
+    # Each column gets its own fixed-height, independently scrollable container
+    with doc_col:
+        with st.container(height=PANE_HEIGHT, border=True):
+            st.subheader("Moderation Bid Form", )
+            try:
+                html = docx_to_html(os.path.join(local_root, rel_path))
+                # Minimal styling so tables render sensibly; st.html renders the
+                # HTML properly (unlike st.markdown, which mangles block-level HTML)
+                st.html(
+                    """
+                    <style>
+                        .docx-view table { border-collapse: collapse; margin: 0.5rem 0; }
+                        .docx-view td, .docx-view th { border: 1px solid #888; padding: 4px 8px; }
+                        .docx-view img { max-width: 100%; }
+                    </style>
+                    <div class="docx-view">""" + html + "</div>"
+                )
+            except Exception as e:
+                st.error(f"Could not display this document: {e}")
+
+    with review_col:
+        with st.container(height=PANE_HEIGHT, border=True):
+            st.subheader("AI-Generated Review")
+            st.write("placeholder text")
+            # Insert AI-generated review content here
+            # ...
 
     st.divider()
     nav_bar("bottom", index, len(files))
