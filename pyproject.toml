@@ -9,7 +9,6 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "databricks-sdk>=0.158.0",
-    "geopandas>=1.2.0",
     "mammoth>=1.13.0",
     "pandas>=3.1.0",
     "python-dotenv>=1.2.4",
