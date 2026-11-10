@@ -8,8 +8,8 @@ load_dotenv()
 
 FORMS_PATH = "/Volumes/prd_dash_lab/ea_fcrm_ai_labs/ai_labs/UC3/Forms"
 
-# Height (px) of the side-by-side document / review panes. Each pane scrolls
-# independently once its content exceeds this height.
+# Height (px) of the side-by-side document / review panes
+# Each pane scrolls independently once its content exceeds this height
 PANE_HEIGHT = 700
 
 # Page config
