@@ -14,10 +14,21 @@ load_dotenv()
 
 def get_workspace_client() -> WorkspaceClient:
     if "workspace_client" not in st.session_state:
-        st.session_state.workspace_client = WorkspaceClient(
-            host=os.environ["DATABRICKS_HOST"],
-            token=os.environ["DATABRICKS_TOKEN"],
-        )
+        if os.environ.get("DATABRICKS_CLIENT_ID") and os.environ.get("DATABRICKS_CLIENT_SECRET"):
+            # Deployed as Databricks App: use service principal (OAuth M2M)
+            st.session_state.workspace_client = WorkspaceClient(
+                host=os.environ["DATABRICKS_HOST"],
+                client_id=os.environ["DATABRICKS_CLIENT_ID"],
+                client_secret=os.environ["DATABRICKS_CLIENT_SECRET"],
+                auth_type="oauth-m2m",
+            )
+        else:
+            # Local execution: use PAT from .env
+            st.session_state.workspace_client = WorkspaceClient(
+                host=os.environ["DATABRICKS_HOST"],
+                token=os.environ["DATABRICKS_TOKEN"],
+                auth_type="pat",
+            )
     return st.session_state.workspace_client
 
 

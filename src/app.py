@@ -6,7 +6,10 @@ from backend_helpers.utils import download_volume_tree
 
 load_dotenv()
 
-FORMS_PATH = "/Volumes/prd_dash_lab/ea_fcrm_ai_labs/ai_labs/UC3/Forms"
+UC_VOLUME = os.environ["UC_VOLUME"]
+FORMS_PATH = f"{UC_VOLUME}/UC3/Forms"
+
+print(FORMS_PATH)
 
 # Height (px) of the side-by-side document / review panes
 # Each pane scrolls independently once its content exceeds this height
